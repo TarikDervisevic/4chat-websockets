@@ -1,0 +1,33 @@
+.NewMessage {
+    margin-top: auto;
+    min-height: 5rem;
+    width: 100%;
+    display: flex;
+    align-items: top;
+}
+
+.NewMessageBox {
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    width: 90%;
+    min-height: 3rem;
+    background-color: var(--header-color);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.TextBox {
+    z-index: 9999;
+    width: 100%;
+    min-height: 1.5rem;
+    background-color: transparent;
+    color: white;
+    -webkit-user-modify: read-write-plaintext-only;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    margin: 0.8rem;
+    outline: none;
+}
+

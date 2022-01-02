@@ -1,0 +1,44 @@
+.Message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 5rem;
+    width: 100%;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid;
+    border-color: var(--highlight-color);
+    box-sizing: border-box;
+    color: white;
+}
+
+.PostInfo {
+    display: grid;
+    grid-template-columns: auto;
+    width: 19rem;
+    margin-bottom: 0.3rem;
+}
+
+.Username {
+    grid-column: 1;
+    grid-row: 1;
+    font-weight: bold;
+}
+
+.PostDate {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.PostTime {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.PostID {
+    grid-column: 4;
+    grid-row: 1;
+}
+
+.Text {
+    margin-left: 0rem;
+}
