@@ -1,0 +1,10 @@
+.RightToolbar {
+    margin-right: 0.6rem;
+    margin-left: 0.6rem;
+    margin-top: 0.6rem;
+    height: 3rem;
+    max-width: 100%;
+    background-color: var(--header-color);
+    grid-column: 3;
+    grid-row: 1;
+}

@@ -1,0 +1,13 @@
+.LeftToolbar {
+    margin-right: 0.6rem;
+    margin-left: 0.6rem;
+    margin-top: 0.6rem;
+    height: 3rem;
+    width: 100% - 0.6rem;
+    background-color: var(--header-color);
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+}
+

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Message from "./Message/Message";
 
 import classes from "./MessageList.module.css"
@@ -47,10 +47,20 @@ const MessageList = (props) => {
             postID: "#00000259"}
     ]
 
+    const messageListRef = useRef();
+
+    useEffect(() => {
+        messageListRef.current.scrollTop = messageListRef.current.scrollHeight
+    }, [])
+
     return (
-        <div className={classes.MessageList}>
-            {messages.map(message => 
+        <div 
+            className={classes.MessageList}
+            ref={messageListRef}>
+
+            {messages.map((message, i) => 
                 <Message 
+                    key={i}
                     text={message.text} 
                     username={message.username} 
                     postDate={message.postDate}

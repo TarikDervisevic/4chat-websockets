@@ -1,0 +1,13 @@
+.HamburgerBtn {
+    width: 4rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.HamburgerIcon {
+    max-height: 80%;
+    filter: invert(100%);
+    margin-left: 0.8rem;
+    cursor: pointer;
+}
