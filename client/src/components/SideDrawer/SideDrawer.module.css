@@ -6,6 +6,7 @@
     background-color: var(--header-color);
     height: 7rem;
     grid-column: 1;
+    z-index: 1;
 }
 
 .UsernameMenu {
@@ -51,12 +52,52 @@
 
     cursor: pointer;
 
-    -moz-transition: background-color .15s ease-in;
-    -o-transition: background-color .15s ease-in;
-    -webkit-transition: background-color .15s ease-in;
-    transition: background-color .15s ease-in;
+    -moz-transition: background-color .125s ease-in;
+    -o-transition: background-color .125s ease-in;
+    -webkit-transition: background-color .125s ease-in;
+    transition: background-color .125s ease-in;
 }
 
 .UsernameSetButton:hover {
-    background-color: rgb(64, 98, 170);
+    background-color: rgb(71, 110, 194);
+}
+
+.HideSideDrawer {
+    visibility: hidden;
+    animation: fadeOut 0.3s linear forwards;
+}
+
+.ShowSideDrawer {
+    visibility: visible;
+    animation: fadeIn 0.3s linear forwards;
+}
+
+.InitialHideSideDrawer {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.5;
+        visibility: hidden;
+        transform: translateY(-130px);
+    }
+    to { 
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+  
+@keyframes fadeOut {
+    from { 
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0.5;
+        visibility: hidden;
+        transform: translateY(-130px);
+    }
 }

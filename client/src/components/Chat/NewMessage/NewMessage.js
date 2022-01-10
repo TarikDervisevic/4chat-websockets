@@ -13,13 +13,13 @@ const NewMessage = (props) => {
         </div>
 
     const sendMessageHandler = (e) => {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             props.sendMessage()
         }
     }
 
     const preventEnterDefault = (e) => {
-        if (e.keyCode == 13 && !e.shiftKey) {
+        if (e.keyCode === 13 && !e.shiftKey) {
             e.preventDefault()
         }
     }
