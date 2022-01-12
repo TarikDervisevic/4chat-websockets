@@ -1,5 +1,5 @@
-import Board from "../models/board";
-import Message from "../models/message";
+import Board from "../models/board.js";
+import { Message } from "../models/message.js";
 
 export default class BoardsController {
     static async getXMessages(req, res, next) {

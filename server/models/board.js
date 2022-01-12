@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { MessageSchema } from "./message"
+import { MessageSchema } from "./message.js"
 const Schema = mongoose.Schema;
 
 const BoardSchema = new Schema({
