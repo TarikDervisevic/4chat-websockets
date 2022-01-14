@@ -1,12 +1,14 @@
 import mongoose from "mongoose"
-import { MessageSchema } from "./message.js"
 const Schema = mongoose.Schema;
 
 const BoardSchema = new Schema({
     name: String,
     totalMessages: Number,
     messages: [
-        MessageSchema
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Message"
+        }
     ]
 });
 

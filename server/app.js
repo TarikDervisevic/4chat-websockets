@@ -5,6 +5,7 @@ import path from "path"
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import boardRoutes from "./routes/boards.js";
+import BoardsController from "./controllers/boards.js";
 
 dotenv.config();
 
@@ -28,6 +29,17 @@ app.use(express.json());
 app.use(mongoSanitize({
     replaceWith: "_"
 }))
+
+
+setInterval(() => {
+  const hour = (new Date()).getHours();
+  const minute = (new Date()).getMinutes();
+  if (hour === 0 && minute === 0) {
+    BoardsController.clearMessages();
+    console.log("Messages cleared")
+  }
+}, 60000)
+
 
 app.use("/api/boards", boardRoutes);
 

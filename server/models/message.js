@@ -3,11 +3,10 @@ const Schema = mongoose.Schema;
 
 const MessageSchema = new Schema({
     text: String,
-    boardName: String,
     author: String,
-    postId: Number,
-    datePosted: String,
-    timePosted: String
+    postID: Number,
+    board: String,
+    timePosted: Number
 });
 
 const Message = mongoose.model("Message", MessageSchema);
