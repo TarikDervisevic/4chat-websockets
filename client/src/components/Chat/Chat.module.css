@@ -2,6 +2,7 @@
     background: var(--main-chat-color);
     margin: 0.6rem auto;
     height: 90vh;
+    width: 100%;
     display: grid;
     grid-template-rows: 6rem auto auto;
     grid-column: 2;

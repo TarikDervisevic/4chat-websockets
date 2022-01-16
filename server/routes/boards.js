@@ -3,8 +3,8 @@ import BoardsController from "../controllers/boards.js";
 import catchAsync from "../utils/catchAsync.js";
 const router = express.Router();
 
-router.post("/:boardname", catchAsync(BoardsController.postMessage))
+router.post("/:board", catchAsync(BoardsController.postMessage))
 
-router.get("/:boardname", catchAsync(BoardsController.getXMessages))
+router.get("/:board/:num_messages_requested/:last_message_id", catchAsync(BoardsController.getXMessages))
 
 export default router;

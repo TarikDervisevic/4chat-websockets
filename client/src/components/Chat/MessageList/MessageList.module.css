@@ -24,7 +24,7 @@
     background-clip: content-box;
 }
 
-::-webkit-scrollbar-track:vertical {
+.MessageList::-webkit-scrollbar-track:vertical {
     border-right: 0.4rem solid var(--main-chat-color);
     border-left: 0.4rem solid var(--main-chat-color);
     border-radius: 0.6rem;

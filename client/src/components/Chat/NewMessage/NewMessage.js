@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import classes from "./NewMessage.module.css"
 
@@ -12,9 +12,16 @@ const NewMessage = (props) => {
             Send a message
         </div>
 
+    const inputRef = useRef();
+
+    const inputHandler = (e) => {
+        props.setNewMessage(e.target.innerText)
+    }
+
     const sendMessageHandler = (e) => {
         if (e.keyCode === 13) {
             props.sendMessage()
+            inputRef.current.innerText = "";
         }
     }
 
@@ -38,13 +45,14 @@ const NewMessage = (props) => {
                     {placeholderDiv}
                 <div 
                     className={classes.TextBox} 
+                    ref={inputRef}
                     role="textbox" 
                     contentEditable
                     aria-multiline
                     aria-autocomplete="list"
                     aria-label="Send a message"
                     onKeyDown={e => {sendMessageHandler(e); preventEnterDefault(e);}}
-                    onInput={e => props.setNewMessage(e.target.innerText)}
+                    onInput={e => inputHandler(e)}
                     value={props.newMessage}>
                 </div>
             </div>

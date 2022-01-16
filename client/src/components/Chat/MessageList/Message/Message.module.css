@@ -14,8 +14,8 @@
 
 .PostInfo {
     display: grid;
-    grid-template-columns: auto;
-    width: 19rem;
+    grid-template-columns: 30% 25% 20% 25%;
+    width: 23rem;
     margin-bottom: 0.3rem;
 }
 
