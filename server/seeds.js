@@ -29,13 +29,11 @@ const createBoard = async () => {
 
 const seedMessages = async (e) => {
     try {
-        
-        let messages = [];
         let board = await Board.findOne({ name : "general1" });
         board.messages = [];
         await Message.deleteMany({}).then(console.log("Cleared message collection"))
-        const messageTexts = ["lorem ipsum", "dolor sit amet consectetur", "sed eiusmod adipiscing elit lorem dolor amet consectetur"]
-        for (let i = 0; i < 35; i++) {
+        const messageTexts = ["lorem ipsum", "dolor sit amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur ", "sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur sed eiusmod adipiscing elit lorem dolor amet consectetur "]
+        for (let i = 0; i < 100; i++) {
             let messageObject = new Message;
             messageObject.text = pickRdmValue(messageTexts);
             messageObject.author = "Anonymous";

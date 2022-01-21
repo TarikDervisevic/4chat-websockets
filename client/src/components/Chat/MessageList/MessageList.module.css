@@ -29,3 +29,32 @@
     border-left: 0.4rem solid var(--main-chat-color);
     border-radius: 0.6rem;
 }
+
+.CoverSpin {
+    width:100%;
+    z-index:9999;
+}
+
+@-webkit-keyframes spin {
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+.CoverSpin::after {
+    content:'';
+    margin: 0 auto;
+    display:block;
+    width:70px;height:70px;
+    border-style:solid;
+    border-color:var(--main-bg-color);
+    border-top-color:transparent;
+    border-width: 6px;
+    border-radius:50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+}

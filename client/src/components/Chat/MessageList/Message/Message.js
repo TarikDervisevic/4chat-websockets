@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import classes from "./Message.module.css"
 
 const Message = (props) => {
+    const preResLastMessageID = useSelector(state => state.preResLastMessageID);
+
+    useEffect(() => {
+        if (props.realPostID === preResLastMessageID) {
+            props.setOffsetFromTop(messageRef.current.offsetTop)
+        }
+    }, [preResLastMessageID])
+
+    const messageRef = useRef();
+
     return (
-        <div className={classes.Message}>
+        <div 
+            className={classes.Message}
+            ref={messageRef}>
             <div className={classes.PostInfo}>
                 <div className={classes.Username}>
                     {props.username}

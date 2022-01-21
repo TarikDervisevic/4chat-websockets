@@ -44,8 +44,19 @@ export default class BoardsController {
                     ]}
                 )
             }  
-            console.log(messageList)
+            console.log(messageList);
             res.json(messageList);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    static async getNewMessages(req, res, next) {
+        try {
+            const newestMessageID = req.params.newest_message_id;
+            const board = await Board.findOne( { name: req.params.board } );
+            const newMessages = await Message.find( { "postID" : { $gt: newestMessageID } } );
+            res.json(newMessages);
         } catch (e) {
             console.log(e);
         }
@@ -55,16 +66,7 @@ export default class BoardsController {
         try {
             const message = new Message;
             const board = await Board.findOne({ name: req.params.board })
-            const lastMessage = await Message.aggregate(
-                [
-                    { $group: 
-                        { 
-                            _id: "$author",
-                            postID: { $max: "$postID" } 
-                        }
-                    }
-                ]
-            )
+            const lastMessage = await Message.find({}).sort({_id:-1}).limit(1);
             let lastPostID;
             if (lastMessage[0]) {
                 lastPostID = lastMessage[0].postID

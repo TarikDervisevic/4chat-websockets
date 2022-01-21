@@ -1,11 +1,27 @@
-import React, { useEffect, useRef } from "react";
+import React, { forwardRef, useImperativeHandle, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import Message from "./Message/Message";
 
 import classes from "./MessageList.module.css"
 
-const MessageList = (props) => {
+const MessageList = forwardRef((props, ref) => {
+
+    const lastMessageOffsetTop = useSelector(state => state.lastMessageOffsetTop);
+    const lastMessageID = useSelector(state => state.lastMessageID);
+
+    useImperativeHandle(ref, () => ({
+        scrollToPreResLastMessage() {
+            messageListRef.current.scrollTop = lastMessageOffsetTop - 180;
+            console.log("child function triggered")
+            console.log(lastMessageOffsetTop)
+        },
+        scrollToBottom() {
+            messageListRef.current.scrollTop = messageListRef.current.scrollHeight
+        }
+    }))
     
     const messageListRef = useRef();
+    const timesJumpedToBottom = useRef(0);
 
     const scrollToBottom = () => {
         messageListRef.current.scrollTop = messageListRef.current.scrollHeight
@@ -48,15 +64,21 @@ const MessageList = (props) => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            scrollToBottom();
-        }, 1);
+        if (timesJumpedToBottom.current === 0 && props.messages.length) {
+            setTimeout(() => {
+                scrollToBottom();
+                timesJumpedToBottom.current++
+                
+            }, 1);
+        }
     }, [props.messages])
 
     return (
         <div 
             className={classes.MessageList}
-            ref={messageListRef}>
+            ref={messageListRef}
+            onScroll={(e) => {props.onScrollToTop(e)}}>
+                { lastMessageID !== 1 ? <div className={classes.CoverSpin}/> : null }
 
             {props.messages && props.messages.map((message, i) => 
                 <Message 
@@ -66,9 +88,11 @@ const MessageList = (props) => {
                     postDate={getDate(message.timePosted)}
                     postTime={getTime(message.timePosted)}
                     postID={getPostID(message.postID)}
+                    realPostID={(message.postID)}
+                    setOffsetFromTop={props.setOffsetFromTop}
                 />)}
         </div>
     )
-}
+})
 
 export default MessageList;
