@@ -14,12 +14,15 @@ const Chat = (props) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [isGettingMessages, setIsGettingMessages] = useState(false);
+    const [newestMessageID, setNewestMessageID] = useState(0);
+    const [messageListScrollHeight, setMessageListScrollHeight] = useState(1000);
+    const [messageListScrollTop, setMessageListScrollTop] = useState(0);
+    const [clientHeight, setClientHeight] = useState(0);
 
     const messageListRef = useRef();
 
     const username = useSelector(state => state.username);
-    const board = useSelector(state => state.board);
-    const newestMessageID = useSelector(state => state.newestMessageID);
+    const board = useSelector(state => state.currentBoard);
     const lastMessageID = useSelector(state => state.lastMessageID);
     const lastMessageOffsetTop = useSelector(state => state.lastMessageOffsetTop);
 
@@ -39,7 +42,6 @@ const Chat = (props) => {
                     setMessages(prevState => { 
                         return [ ...response.data, ...prevState ]
                     }); 
-                    console.log(response.data);
                     let lastID = response.data[0].postID;
                     let resHighestMessageID = response.data[response.data.length - 1].postID;
 
@@ -58,12 +60,7 @@ const Chat = (props) => {
                     })
 
                     if (resHighestMessageID > newestMessageID) {
-                        dispatch({
-                            type: "setNewestMessageID",
-                            payload: {
-                                newestMessageID: resHighestMessageID
-                            }
-                        })
+                        setNewestMessageID(resHighestMessageID);
                     }
 
                     messageListRef.current.scrollToPreResLastMessage()
@@ -72,25 +69,52 @@ const Chat = (props) => {
             })
     }
 
-    setInterval(() => {
+    const updateMessages = (isAutoUpdate = false) => {
+        let isScrolledToBottom = (messageListScrollHeight - messageListScrollTop === clientHeight)
         MessageDataService.getNewMessages(board, newestMessageID)
             .then((response) => {
                 setMessages(prevState => {
                     return [ ...prevState, ...response.data ]
                 })
-                messageListRef.current.scrollToBottom();
-                let resHighestMessageID = response.data[response.data.length - 1].postID;
-                console.log(resHighestMessageID)
+                if (!isAutoUpdate || isScrolledToBottom) { 
+                    messageListRef.current.scrollToBottom(); 
+                }
+                
+                let resHighestMessageID;
+                if (response.data.length) {
+                    resHighestMessageID = response.data[response.data.length - 1].postID;
+                } else {
+                    resHighestMessageID = 0;
+                }
                 if (resHighestMessageID > newestMessageID) {
-                    dispatch({
-                        type: "setNewestMessageID",
-                        payload: {
-                            newestMessageID: resHighestMessageID
-                        }
-                    })
+                    setNewestMessageID(resHighestMessageID);
                 }
             })
-    }, 20000000);
+    }
+
+    function useInterval(callback, delay) {
+        const savedCallback = useRef();
+
+        // Remember the latest callback.
+        useEffect(() => {
+            savedCallback.current = callback;
+        }, [callback]);
+
+        // Set up the interval.
+        useEffect(() => {
+            function tick() {
+            savedCallback.current();
+            }
+            if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+            }
+        }, [delay]);
+    }
+
+    useInterval(() => {
+        updateMessages(true)
+    }, 2000);
 
     useEffect(() => {
         let req = { 
@@ -121,27 +145,12 @@ const Chat = (props) => {
     const sendMessage = (e) => {
         let message = {
             username,
-            text: newMessage
+            text: newMessage,
+            board: board
         }
         MessageDataService.postMessage(board, message)
         .then(() => {
-            MessageDataService.getNewMessages(board, newestMessageID)
-            .then((response) => {
-                setMessages(prevState => {
-                    return [ ...prevState, ...response.data ]
-                })
-                messageListRef.current.scrollToBottom();
-                let resHighestMessageID = response.data[response.data.length - 1].postID;
-                console.log(resHighestMessageID)
-                if (resHighestMessageID > newestMessageID) {
-                    dispatch({
-                        type: "setNewestMessageID",
-                        payload: {
-                            newestMessageID: resHighestMessageID
-                        }
-                    })
-                }
-            })
+            updateMessages();
         })
         setNewMessage("");
     }
@@ -153,7 +162,10 @@ const Chat = (props) => {
                 ref={messageListRef}
                 messages={messages}
                 onScrollToTop={scrollToTopHandler}
-                setOffsetFromTop={setLastMessageOffsetTop}/>
+                setOffsetFromTop={setLastMessageOffsetTop}
+                setMessageListScrollHeight={setMessageListScrollHeight}
+                setMessageListScrollTop={setMessageListScrollTop}
+                setClientHeight={setClientHeight}/>
             <NewMessage 
                 setNewMessage={setNewMessage} 
                 sendMessage={sendMessage} 
@@ -163,3 +175,4 @@ const Chat = (props) => {
 }
 
 export default Chat;
+

@@ -4,7 +4,7 @@ const mainReducer = (state = {
         username: "Anonymous",
         showSideDrawer: false,
         currentBoard: "general1",
-        newestMessageID: 0,
+        newestMessageID: 1,
         lastMessageID: 0,
         preResLastMessageID: 0,
         lastMessageOffsetTop: 0,

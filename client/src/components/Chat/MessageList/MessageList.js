@@ -1,10 +1,12 @@
 import React, { forwardRef, useImperativeHandle, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Message from "./Message/Message";
 
 import classes from "./MessageList.module.css"
 
 const MessageList = forwardRef((props, ref) => {
+
+    const dispatch = useDispatch();
 
     const lastMessageOffsetTop = useSelector(state => state.lastMessageOffsetTop);
     const lastMessageID = useSelector(state => state.lastMessageID);
@@ -16,7 +18,7 @@ const MessageList = forwardRef((props, ref) => {
             console.log(lastMessageOffsetTop)
         },
         scrollToBottom() {
-            messageListRef.current.scrollTop = messageListRef.current.scrollHeight
+            scrollToBottom();
         }
     }))
     
@@ -73,11 +75,22 @@ const MessageList = forwardRef((props, ref) => {
         }
     }, [props.messages])
 
+    useEffect(() => {
+        if (messageListRef.current.scrollTop === messageListRef.current.scrollHeight) {
+
+        }
+    }, [props.messages])
+
     return (
         <div 
             className={classes.MessageList}
             ref={messageListRef}
-            onScroll={(e) => {props.onScrollToTop(e)}}>
+            onScroll={(e) => {
+                props.onScrollToTop(e);
+                props.setMessageListScrollHeight(e.target.scrollHeight);
+                props.setMessageListScrollTop(e.target.scrollTop);
+                props.setClientHeight(e.target.clientHeight);
+            }}>
                 { lastMessageID !== 1 ? <div className={classes.CoverSpin}/> : null }
 
             {props.messages && props.messages.map((message, i) => 

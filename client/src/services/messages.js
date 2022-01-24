@@ -1,7 +1,7 @@
 import http from "../http-common";
 
 export default class MessageDataService {
-    static async getXMessages(board = "general1", numMessagesRequested, lastMessageID) {
+    static async getXMessages(board = "general1", numMessagesRequested = 30, lastMessageID = 0) {
         return http.get(`/boards/${board}/get_messages/${numMessagesRequested}/${lastMessageID}`)
     }
     static async getNewMessages(board = "general1", newestMessageID) {
