@@ -1,4 +1,6 @@
-import dotenv from "dotenv";
+if (process.env.NODE_ENV !== "production") {
+  import dotenv from "dotenv";
+}
 import express from "express";
 import mongoose from "mongoose";
 import path from "path"
