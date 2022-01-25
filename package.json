@@ -1,0 +1,19 @@
+{
+  "name": "4chat",
+  "version": "1.0.0",
+  "description": "instant message board with MERN stack",
+  "main": "/server/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TarikDervisevic/4chat.git"
+  },
+  "author": "Tarik Dervisevic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TarikDervisevic/4chat/issues"
+  },
+  "homepage": "https://github.com/TarikDervisevic/4chat#readme"
+}
