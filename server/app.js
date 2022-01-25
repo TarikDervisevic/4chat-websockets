@@ -1,8 +1,6 @@
-if (process.env.NODE_ENV !== "production") {
-  import dotenv from "dotenv";
-}
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import path from "path"
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
