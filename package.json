@@ -1,19 +1,24 @@
 {
-  "name": "4chat",
+  "name": "4chat_api",
   "version": "1.0.0",
-  "description": "instant message board with MERN stack",
-  "main": "/server/app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "backend for 4chat",
+  "main": "app.js",
+  "type": "module",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "express-mongo-sanitize": "^2.1.0",
+    "mongoose": "^6.1.5",
+    "path": "^0.12.7"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TarikDervisevic/4chat.git"
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Tarik Dervisevic",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TarikDervisevic/4chat/issues"
-  },
-  "homepage": "https://github.com/TarikDervisevic/4chat#readme"
+  "license": "ISC"
 }
