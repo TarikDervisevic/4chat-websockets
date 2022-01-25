@@ -2,7 +2,7 @@ import axios from "axios";
 
 const setBaseURL = () => {
     if (process.env.NODE_ENV === "production") {
-        return "https://4chat.web.app/api/"
+        return "https://four-chat.herokuapp.com/api/"
     } else if (process.env.NODE_ENV !== "production") {
         return "http://localhost:5000/api/"
     }

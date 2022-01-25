@@ -16,7 +16,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "node index.js",
     "build": "cd .. && cd client && npm run build",
     "install-client": "cd .. && cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build"
