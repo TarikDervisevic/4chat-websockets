@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import sendIcon from "../../../assets/images/send-icon.png";
 
 import classes from "./NewMessage.module.css"
 
@@ -18,8 +19,8 @@ const NewMessage = (props) => {
         props.setNewMessage(e.target.innerText)
     }
 
-    const sendMessageHandler = (e) => {
-        if (e.keyCode === 13) {
+    const sendMessageHandler = (keyCode, fromSendButton) => {
+        if (keyCode === 13 || fromSendButton) {
             props.sendMessage()
             inputRef.current.innerText = "";
         }
@@ -51,10 +52,15 @@ const NewMessage = (props) => {
                     aria-multiline
                     aria-autocomplete="list"
                     aria-label="Send a message"
-                    onKeyDown={e => {sendMessageHandler(e); preventEnterDefault(e);}}
+                    onKeyDown={e => {sendMessageHandler(e.keyCode); preventEnterDefault(e);}}
                     onInput={e => inputHandler(e)}
                     value={props.newMessage}>
                 </div>
+            </div>
+            <div className={classes.SendButtonContainer}>
+                <button className={classes.SendButton} onClick={() => {sendMessageHandler(null, true)}}>
+                    <img className={classes.SendIcon} alt="sendIcon" src={sendIcon}/>
+                </button>
             </div>
         </div>
     )

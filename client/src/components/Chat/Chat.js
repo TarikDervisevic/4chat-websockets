@@ -74,7 +74,28 @@ const Chat = (props) => {
         MessageDataService.getNewMessages(board, newestMessageID)
             .then((response) => {
                 setMessages(prevState => {
-                    return [ ...prevState, ...response.data ]
+                    let newMessages = response.data;
+                    let newMessageIDs = [];
+                    let oldMessageIDs = [];
+                    prevState.forEach(message => {
+                        oldMessageIDs.push(message.postID);
+                    })
+                    newMessages.forEach(message => {
+                        newMessageIDs.push(message.postID);
+                    });
+                    newMessageIDs.forEach(ID => {
+                        if (oldMessageIDs.includes(ID)) {
+                            const index = newMessageIDs.indexOf(ID);
+                            newMessageIDs.splice(index);
+                        }
+                    })
+                    newMessages.forEach(message => {
+                        if (oldMessageIDs.includes(message.postID)) {
+                            let index = newMessages.indexOf(message);
+                            newMessages.splice(index);
+                        }
+                    })
+                    return [ ...prevState, ...newMessages ]
                 })
                 if (!isAutoUpdate || isScrolledToBottom) { 
                     messageListRef.current.scrollToBottom(); 
@@ -125,13 +146,8 @@ const Chat = (props) => {
         getMessages(req);
     }, [])
 
-    useEffect(() => {
-        console.log(lastMessageOffsetTop)
-    }, [lastMessageOffsetTop])
-
     const scrollToTopHandler = (e) => {
         if (e.target.scrollTop < 80 && !isGettingMessages) {
-            console.log("Scrolled to top of div")
             setIsGettingMessages(true);
             let req = {
                 numRequestedMessages: 30,

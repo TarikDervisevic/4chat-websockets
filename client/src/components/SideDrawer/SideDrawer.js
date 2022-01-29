@@ -46,7 +46,7 @@ const SideDrawer = (props) => {
                 />
                 <button 
                     className={classes.UsernameSetButton}
-                    onClick={() => {setUsernameHandler(inputRef.current.value); console.dir(inputRef.current)}}>
+                    onClick={() => {setUsernameHandler(inputRef.current.value)}}>
                     Set</button>
             </div>
             

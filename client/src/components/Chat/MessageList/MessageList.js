@@ -14,8 +14,6 @@ const MessageList = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         scrollToPreResLastMessage() {
             messageListRef.current.scrollTop = lastMessageOffsetTop - 180;
-            console.log("child function triggered")
-            console.log(lastMessageOffsetTop)
         },
         scrollToBottom() {
             scrollToBottom();
@@ -91,7 +89,7 @@ const MessageList = forwardRef((props, ref) => {
                 props.setMessageListScrollTop(e.target.scrollTop);
                 props.setClientHeight(e.target.clientHeight);
             }}>
-                { props.messages > 8 ? <div className={classes.CoverSpin}/> : null }
+                { props.messages.length > 8 ? <div className={classes.CoverSpin}/> : null }
 
             {props.messages && props.messages.map((message, i) => 
                 <Message 
