@@ -54,7 +54,6 @@ export default class BoardsController {
 
     static async getNewMessages(req, res, next) {
         try {
-            console.log(req.params);
             const newestMessageID = req.params.newest_message_id;
             const board = await Board.findOne( { name: req.params.board } );
             const newMessages = await Message.find( { "postID" : { $gt: newestMessageID } } );

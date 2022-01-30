@@ -1,9 +1,13 @@
 import React from "react"
-import Layout from "./components/Layout/Layout"
+import ScreenSizeProvider from "./components/ScreenSizeProvider/ScreenSizeProvider";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   return (
-    <Layout/>
+    <React.Fragment>
+      <ScreenSizeProvider/>
+      <Layout/>
+    </React.Fragment>
   );
 }
 

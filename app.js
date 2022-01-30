@@ -37,6 +37,9 @@ setInterval(() => {
   if (hour === 0 && minute === 0) {
     BoardsController.clearMessages();
     console.log("Messages cleared")
+  } else {
+    console.log("hour:" + hour);
+    console.log("minute:" + minute)
   }
 }, 60000)
 

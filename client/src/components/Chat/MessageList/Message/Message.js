@@ -5,6 +5,7 @@ import classes from "./Message.module.css"
 
 const Message = (props) => {
     const preResLastMessageID = useSelector(state => state.preResLastMessageID);
+    const screenSize = useSelector(state => state.screenSize);
 
     useEffect(() => {
         if (props.realPostID === preResLastMessageID) {
@@ -18,14 +19,14 @@ const Message = (props) => {
         <div 
             className={classes.Message}
             ref={messageRef}>
-            <div className={classes.PostInfo}>
+            <div className={`${classes.PostInfo} ${screenSize === "small" || screenSize === "extraSmall" ? classes.PostInfoSmall : null}`}>
                 <div className={classes.Username}>
                     {props.username}
                 </div>
-                <div className={classes.PostDate}>
+                <div className={`${classes.PostDate} ${screenSize === "small" || screenSize === "extraSmall" ? classes.PostDateSmall : null}`}>
                     {props.postDate}
                 </div>
-                <div className={classes.PostTime}>
+                <div className={`${classes.PostTime} ${screenSize === "small" || screenSize === "extraSmall" ? classes.PostTimeSmall : null}`}>
                     {props.postTime}
                 </div>
                 <div className={classes.PostID}>

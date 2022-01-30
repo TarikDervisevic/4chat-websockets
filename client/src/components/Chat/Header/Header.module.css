@@ -7,10 +7,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 1rem;
 }
 
 .WelcomeText {
     font-size: 2rem;
+}
+
+.WelcomeTextSmall {
+    font-size: 1.6rem;
 }
 
 .AdditionalText {

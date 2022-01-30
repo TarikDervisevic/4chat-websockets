@@ -8,6 +8,7 @@ const mainReducer = (state = {
         lastMessageID: 0,
         preResLastMessageID: 0,
         lastMessageOffsetTop: 0,
+        screenSize: "large",
     }, action ) => {
     switch (action.type) {
         case "flash": return { ...state, flashMessage: action.payload.flashMessage, flashType: action.payload.flashType } || state;
@@ -18,6 +19,7 @@ const mainReducer = (state = {
         case "setPreResLastMessageID": return { ...state, preResLastMessageID: action.payload.preResLastMessageID } || state;
         case "setLastMessageOffsetTop": return { ...state, lastMessageOffsetTop: action.payload.lastMessageOffsetTop } || state;
         case "setShowSideDrawer": return { ...state, showSideDrawer: !state.showSideDrawer } || state;
+        case "setScreenSize": return { ...state, screenSize: action.payload.screenSize } || state;
         default: return state;
     }
 };

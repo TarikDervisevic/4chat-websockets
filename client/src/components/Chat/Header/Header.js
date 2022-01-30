@@ -1,11 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import classes from "./Header.module.css"
 
 const Header = (props) => {
+    const screenSize = useSelector(state => state.screenSize);
+
     return (
         <div className={classes.Header}>
-            <div className={classes.WelcomeText}>
+            <div className={screenSize === "small" || screenSize === "extraSmall" ? classes.WelcomeTextSmall : classes.WelcomeText}>
                 Welcome to 4chat
             </div>
             <div className={classes.AdditionalText}>
