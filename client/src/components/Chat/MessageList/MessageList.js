@@ -91,7 +91,7 @@ const MessageList = forwardRef((props, ref) => {
                 props.setMessageListScrollTop(e.target.scrollTop);
                 props.setClientHeight(e.target.clientHeight);
             }}>
-                { lastMessageID !== 1 ? <div className={classes.CoverSpin}/> : null }
+                { props.messages > 8 ? <div className={classes.CoverSpin}/> : null }
 
             {props.messages && props.messages.map((message, i) => 
                 <Message 
