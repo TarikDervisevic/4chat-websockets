@@ -9,7 +9,7 @@ const Header = (props) => {
     return (
         <div className={classes.Header}>
             <div className={screenSize === "small" || screenSize === "extraSmall" ? classes.WelcomeTextSmall : classes.WelcomeText}>
-                Welcome to 4chat
+                Welcome to 4chat - WebSockets
             </div>
             <div className={classes.AdditionalText}>
                 All messages are deleted at 00:00 CET every day

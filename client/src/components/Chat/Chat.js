@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import io from "socket.io-client";
 import Header from "./Header/Header";
 import MessageList from "./MessageList/MessageList";
 import NewMessage from "./NewMessage/NewMessage";
 import MessageDataService from "../../services/messages";
 
 import classes from "./Chat.module.css"
+
+const socket = io.connect("http://localhost:4000");
 
 const Chat = (props) => {
 
@@ -18,6 +21,7 @@ const Chat = (props) => {
     const [messageListScrollHeight, setMessageListScrollHeight] = useState(1000);
     const [messageListScrollTop, setMessageListScrollTop] = useState(0);
     const [clientHeight, setClientHeight] = useState(0);
+    const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 
     const messageListRef = useRef();
 
@@ -69,74 +73,6 @@ const Chat = (props) => {
             })
     }
 
-    const updateMessages = (isAutoUpdate = false) => {
-        let isScrolledToBottom = (messageListScrollHeight - messageListScrollTop === clientHeight)
-        MessageDataService.getNewMessages(board, newestMessageID)
-            .then((response) => {
-                setMessages(prevState => {
-                    let newMessages = response.data;
-                    let newMessageIDs = [];
-                    let oldMessageIDs = [];
-                    prevState.forEach(message => {
-                        oldMessageIDs.push(message.postID);
-                    })
-                    newMessages.forEach(message => {
-                        newMessageIDs.push(message.postID);
-                    });
-                    newMessageIDs.forEach(ID => {
-                        if (oldMessageIDs.includes(ID)) {
-                            const index = newMessageIDs.indexOf(ID);
-                            newMessageIDs.splice(index);
-                        }
-                    })
-                    newMessages.forEach(message => {
-                        if (oldMessageIDs.includes(message.postID)) {
-                            let index = newMessages.indexOf(message);
-                            newMessages.splice(index);
-                        }
-                    })
-                    return [ ...prevState, ...newMessages ]
-                })
-                if (!isAutoUpdate || isScrolledToBottom) { 
-                    messageListRef.current.scrollToBottom(); 
-                }
-                
-                let resHighestMessageID;
-                if (response.data.length) {
-                    resHighestMessageID = response.data[response.data.length - 1].postID;
-                } else {
-                    resHighestMessageID = 0;
-                }
-                if (resHighestMessageID > newestMessageID) {
-                    setNewestMessageID(resHighestMessageID);
-                }
-            })
-    }
-
-    function useInterval(callback, delay) {
-        const savedCallback = useRef();
-
-        // Remember the latest callback.
-        useEffect(() => {
-            savedCallback.current = callback;
-        }, [callback]);
-
-        // Set up the interval.
-        useEffect(() => {
-            function tick() {
-            savedCallback.current();
-            }
-            if (delay !== null) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-            }
-        }, [delay]);
-    }
-
-    useInterval(() => {
-        updateMessages(true)
-    }, 2000);
-
     useEffect(() => {
         let req = { 
             numRequestedMessages: 30, 
@@ -145,6 +81,24 @@ const Chat = (props) => {
         }
         getMessages(req);
     }, [])
+
+    useEffect(() => {
+        socket.on("receive_message", (data) => {
+            setMessages(prevState => {
+                return [ ...prevState, data ]
+            })
+        })
+    }, [socket])
+
+    useEffect(() => {
+        setIsScrolledToBottom(messageListScrollHeight - messageListScrollTop === clientHeight);
+    }, [messageListScrollHeight, messageListScrollTop, clientHeight])
+
+    useEffect(() => {
+        if (isScrolledToBottom) { 
+            messageListRef.current.scrollToBottom(); 
+        }
+    }, [messages])
 
     const scrollToTopHandler = (e) => {
         if (e.target.scrollTop < 80 && !isGettingMessages) {
@@ -164,10 +118,7 @@ const Chat = (props) => {
             text: newMessage,
             board: board
         }
-        MessageDataService.postMessage(board, message)
-        .then(() => {
-            updateMessages();
-        })
+        socket.emit("send_message", message);
         setNewMessage("");
     }
 

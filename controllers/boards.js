@@ -63,10 +63,11 @@ export default class BoardsController {
         }
     }
 
-    static async postMessage(req, res, next) {
+    static async postMessage(messageData) {
         try {
             const message = new Message;
-            const board = await Board.findOne({ name: req.params.board })
+            const board = await Board.findOne({ name: messageData.board })
+
             const lastMessage = await Message.find({}).sort({_id:-1}).limit(1);
             let lastPostID;
             if (lastMessage[0]) {
@@ -74,20 +75,31 @@ export default class BoardsController {
             } else if (!lastMessage[0]) {
                 lastPostID = 0
             }
-            console.log(req.body)
-            message.author = req.body.username;
-            message.text = req.body.text;
-            message.board = req.params.board;
             message.postID = lastPostID + 1;
+            message.socketID = messageData.socketID;
+
+            message.author = messageData.username;
+            message.text = messageData.text;
+            message.board = messageData.board;
             message.timePosted = Date.now();
+
             board.messages.push(message._id);
             board.totalMessages = board.messages.length;
             await board.save();
             await message.save();
-        res.status(201);
-        res.json("Success")
         } catch (e) {
-            console.log(e)
+            console.log(e);
+        }
+    }
+
+    static async findSocketMessage(requestedSocketID) {
+        try {
+            const message = await Message.find({socketID: requestedSocketID})
+                .then(() => {
+                    return message;
+                })
+        } catch (e) {
+            console.log(e);
         }
     }
 

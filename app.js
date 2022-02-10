@@ -4,8 +4,12 @@ import dotenv from "dotenv";
 import path from "path"
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
+import { Server } from "socket.io";
+import http from "http";
+import { Message } from "./models/message.js";
 import boardRoutes from "./routes/boards.js";
 import BoardsController from "./controllers/boards.js";
+import { makeid } from "./utils/utilityFunctions.js";
 
 dotenv.config();
 
@@ -30,6 +34,37 @@ app.use(mongoSanitize({
     replaceWith: "_"
 }))
 
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log(`ID ${socket.id} CONNECTED`);
+
+  socket.on("send_message", (submittedMsg) => {
+    let msgSocketID = makeid(8);
+    let messageData = submittedMsg;
+    messageData.socketID = msgSocketID;
+    BoardsController.postMessage(messageData)
+      .then(async () => {
+        const message = await Message.findOne({socketID: msgSocketID});
+        console.log(message);
+        io.sockets.emit("receive_message", message);
+      })
+  })
+
+  socket.on("disconnect", () => {
+    console.log(`ID ${socket.id} DISCONNECTED`);
+  })
+})
+
+server.listen(4000, () => {
+  console.log("socket.io server running");
+})
 
 setInterval(() => {
   const hour = (new Date()).getHours();
@@ -37,9 +72,6 @@ setInterval(() => {
   if (hour === 0 && minute === 0) {
     BoardsController.clearMessages();
     console.log("Messages cleared")
-  } else {
-    console.log("hour:" + hour);
-    console.log("minute:" + minute)
   }
 }, 60000)
 

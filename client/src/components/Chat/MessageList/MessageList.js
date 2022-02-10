@@ -88,6 +88,7 @@ const MessageList = forwardRef((props, ref) => {
                 props.setMessageListScrollHeight(e.target.scrollHeight);
                 props.setMessageListScrollTop(e.target.scrollTop);
                 props.setClientHeight(e.target.clientHeight);
+                //console.log(`clientHeight ${e.target.clientHeight} scrollHeight ${e.target.scrollHeight} scrollTop ${e.target.scrollTop}`)
             }}>
                 { props.messages.length > 8 ? <div className={classes.CoverSpin}/> : null }
 

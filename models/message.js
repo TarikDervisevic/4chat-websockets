@@ -6,7 +6,8 @@ const MessageSchema = new Schema({
     author: String,
     postID: Number,
     board: String,
-    timePosted: Number
+    timePosted: Number,
+    socketID: String
 });
 
 const Message = mongoose.model("Message", MessageSchema);
