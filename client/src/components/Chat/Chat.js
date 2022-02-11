@@ -8,7 +8,7 @@ import MessageDataService from "../../services/messages";
 
 import classes from "./Chat.module.css"
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect("https://four-chat-socket.herokuapp.com/");
 
 const Chat = (props) => {
 
