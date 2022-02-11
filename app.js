@@ -35,9 +35,10 @@ app.use(mongoSanitize({
 }))
 
 const server = http.createServer(app);
+const corsOrigin = process.env.NODE_ENV === "production" ? "https://four-chat-socket.herokuapp.com/" : "http://localhost:3000";
 const io = new Server(server, {
   cors: {
-    origin: `${process.env.WEBSOCKET_SERVER_URL}`,
+    origin: corsOrigin,
     methods: ["GET", "POST"],
   }
 });
