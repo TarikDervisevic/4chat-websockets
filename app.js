@@ -34,6 +34,15 @@ app.use(mongoSanitize({
     replaceWith: "_"
 }))
 
+app.use("/api/boards", boardRoutes);
+
+if(process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"))
+  //app.get("*", (req, res) => {
+  //  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  //})
+}
+
 const server = http.createServer(app);
 const corsOrigin = process.env.NODE_ENV === "production" ? "https://four-chat-socket.herokuapp.com/" : "http://localhost:3000";
 const io = new Server(server, {
@@ -76,15 +85,6 @@ setInterval(() => {
   }
 }, 60000)
 
-
-app.use("/api/boards", boardRoutes);
-
-if(process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"))
-  //app.get("*", (req, res) => {
-  //  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  //})
-}
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
