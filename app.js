@@ -37,7 +37,7 @@ app.use(mongoSanitize({
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.WEBSOCKET_SERVER_URL,
+    origin: `${process.env.WEBSOCKET_SERVER_URL}`,
     methods: ["GET", "POST"],
   }
 });

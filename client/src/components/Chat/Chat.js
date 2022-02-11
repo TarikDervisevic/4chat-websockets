@@ -8,7 +8,7 @@ import MessageDataService from "../../services/messages";
 
 import classes from "./Chat.module.css"
 
-const socket = io.connect(process.env.WEBSOCKET_SERVER_URL);
+const socket = io.connect(process.env.WEBSOCKET_SERVER_URL || "http://localhost:4000");
 
 const Chat = (props) => {
 
