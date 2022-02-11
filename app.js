@@ -72,10 +72,6 @@ io.on("connection", (socket) => {
   })
 })
 
-server.listen(4000, () => {
-  console.log("socket.io server running");
-})
-
 setInterval(() => {
   const hour = (new Date()).getHours();
   const minute = (new Date()).getMinutes();
@@ -86,7 +82,11 @@ setInterval(() => {
 }, 60000)
 
 
-const port = process.env.PORT || 5000;
+/*const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Serving on port ${port}`)
-});
+});*/
+
+server.listen(4000, () => {
+  console.log("socket.io server running");
+})
