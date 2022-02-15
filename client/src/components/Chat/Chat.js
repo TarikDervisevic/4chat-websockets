@@ -127,9 +127,11 @@ const Chat = (props) => {
             text: newMessage,
             board: board
         }
-        if (message.text.length < 500 && message.text !== "") {
+        if (message.text.length <= 500 && message.text !== "") {
             socket.emit("send_message", message);
             setNewMessage("");
+        } else {
+            alert("Message must be less than 500 characters")
         }
         
     }

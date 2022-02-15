@@ -4,7 +4,8 @@ import sendIcon from "../../../assets/images/send-icon.png";
 import classes from "./NewMessage.module.css"
 
 const NewMessage = (props) => {
-    const [placeholderDiv, setPlaceholderDiv] = useState(null)
+    const [placeholderDiv, setPlaceholderDiv] = useState(null);
+    const [keysDown, setKeysDown] = useState([]);
 
     const placeholderDivJSX = 
         <div 
@@ -19,18 +20,35 @@ const NewMessage = (props) => {
         props.setNewMessage(e.target.innerText)
     }
 
-    const sendMessageHandler = (keyCode, fromSendButton) => {
-        if (keyCode === 13 || fromSendButton) {
+    const addKeyDown = (key) => {
+        let currentKeysDown = keysDown;
+        if (!currentKeysDown.includes(key)) {
+            currentKeysDown.push(key);
+            setKeysDown(currentKeysDown);
+        } 
+    }
+
+    const removeKeyDown = (key) => {
+        let currentKeysDown = keysDown;
+        const i = currentKeysDown.indexOf(key);
+        currentKeysDown.splice(i, 1);
+        setKeysDown(currentKeysDown);
+    }
+
+    const sendMessageHandler = (fromSendButton) => {
+        if ((keysDown.includes(13) && !keysDown.includes(16)) || fromSendButton) {
             props.sendMessage()
-            inputRef.current.innerText = "";
+            if (inputRef.current.innerText.length < 500) {
+                inputRef.current.innerText = "";
+            }
+            setKeysDown([]);
         }
     }
 
-    const preventEnterDefault = (e) => {
-        if (e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault()
-        }
-    }
+    useEffect(() => {
+        sendMessageHandler(null);
+        console.log(keysDown);
+    }, [JSON.stringify(keysDown)])
 
     useEffect(() => {
         if (props.newMessage === "") {
@@ -52,13 +70,14 @@ const NewMessage = (props) => {
                     aria-multiline
                     aria-autocomplete="list"
                     aria-label="Send a message"
-                    onKeyDown={e => {sendMessageHandler(e.keyCode); preventEnterDefault(e);}}
+                    onKeyDown={e => addKeyDown(e.keyCode)}
+                    onKeyUp={e => removeKeyDown(e.keyCode)}
                     onInput={e => inputHandler(e)}
                     value={props.newMessage}>
                 </div>
             </div>
             <div className={classes.SendButtonContainer}>
-                <button className={classes.SendButton} onClick={() => {sendMessageHandler(null, true)}}>
+                <button className={classes.SendButton} onClick={() => {sendMessageHandler(true)}}>
                     <img className={classes.SendIcon} alt="sendIcon" src={sendIcon}/>
                 </button>
             </div>

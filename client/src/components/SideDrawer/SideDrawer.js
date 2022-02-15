@@ -40,7 +40,7 @@ const SideDrawer = (props) => {
                 <input 
                     type="text"
                     ref={inputRef}
-                    maxLength={10}
+                    maxLength={12}
                     className={classes.UsernameInput}
                     placeholder="Anonymous"
                 />

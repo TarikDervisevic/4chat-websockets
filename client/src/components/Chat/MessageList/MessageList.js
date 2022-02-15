@@ -10,6 +10,7 @@ const MessageList = forwardRef((props, ref) => {
 
     const lastMessageOffsetTop = useSelector(state => state.lastMessageOffsetTop);
     const lastMessageID = useSelector(state => state.lastMessageID);
+    const screenSize = useSelector(state => state.screenSize);
 
     useImperativeHandle(ref, () => ({
         scrollToPreResLastMessage() {
@@ -81,7 +82,7 @@ const MessageList = forwardRef((props, ref) => {
 
     return (
         <div 
-            className={classes.MessageList}
+            className={`${classes.MessageList} ${screenSize === "small" || screenSize === "extraSmall" ? classes.MessageListSmall : null}`}
             ref={messageListRef}
             onScroll={(e) => {
                 props.onScrollToTop(e);

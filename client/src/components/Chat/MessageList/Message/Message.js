@@ -17,7 +17,7 @@ const Message = (props) => {
 
     return (
         <div 
-            className={classes.Message}
+            className={`${classes.Message} ${screenSize === "small" || screenSize === "extraSmall" ? classes.MessageSmall : null}`}
             ref={messageRef}>
             <div className={`${classes.PostInfo} ${screenSize === "small" || screenSize === "extraSmall" ? classes.PostInfoSmall : null}`}>
                 <div className={classes.Username}>
