@@ -9,7 +9,7 @@ import MessageDataService from "../../services/messages";
 import classes from "./Chat.module.css"
 
 //const socket = io.connect(process.env.NODE_ENV === "production" ? "/" : "http://localhost:4000");
-const socket = io(process.env.NODE_ENV === "production" ? "/" : "http://localhost:4000", {
+const socket = io(process.env.NODE_ENV === "production" ? "/" : "http://localhost:8080", {
     reconnectionDelay: 1000,
     reconnection: true,
     reconnectionAttemps: 10,

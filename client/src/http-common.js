@@ -4,7 +4,7 @@ const setBaseURL = () => {
     if (process.env.NODE_ENV === "production") {
         return "https://four-chat-socket.herokuapp.com/api/"
     } else if (process.env.NODE_ENV !== "production") {
-        return "http://localhost:5000/api/"
+        return "http://localhost:8080/api/"
     }
 }
 

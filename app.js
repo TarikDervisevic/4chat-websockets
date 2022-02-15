@@ -43,12 +43,12 @@ if(process.env.NODE_ENV === "production") {
   //})
 }
 
-const server = http.createServer(app);
+const server = http.createServer();
 const corsOrigin = process.env.NODE_ENV === "production" ? "https://four-chat-socket.herokuapp.com/" : "http://localhost:3000";
 const io = new Server(server, {
   cors: {
     origin: corsOrigin,
-    methods: ["GET", "POST"],
+    //methods: ["GET", "POST"],
   }
 });
 
@@ -82,11 +82,16 @@ setInterval(() => {
 }, 60000)
 
 
-const port = process.env.PORT || 4000;
+/*const port = process.env.PORT || 4000;
 app.listen(port, () => {
     console.log(`Serving on port ${port}`)
-});
+});*/
 
-server.listen(4000, () => {
+server.on("request", app);
+
+server.listen(8080, (err) => {
   console.log("socket.io server running");
+  if (err) {
+    console.log(err);
+  }
 })
