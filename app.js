@@ -89,7 +89,7 @@ app.listen(port, () => {
 
 server.on("request", app);
 
-server.listen(8080, (err) => {
+server.listen(process.env.PORT || 8080, (err) => {
   console.log("socket.io server running");
   if (err) {
     console.log(err);
